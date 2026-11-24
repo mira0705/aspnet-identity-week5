@@ -1,0 +1,41 @@
+﻿@model List<StudentApp.Models.Student>
+@{
+    ViewData["Title"] = "Студенттер";
+    var isAdmin = User.IsInRole("Admin");
+}
+
+<h1>Студенттер тізімі</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Аты-жөні</th>
+            <th>Тобы</th>
+            @if (isAdmin) { <th></th> }
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Id</td>
+            <td>@s.FullName</td>
+            <td>@s.Group</td>
+            @if (isAdmin)
+            {
+                <td>
+                    <form asp-action="Delete" asp-route-id="@s.Id" method="post" onsubmit="return confirm('Жою керек пе?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Жою</button>
+                    </form>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+@if (!isAdmin)
+{
+    <p class="text-muted">Тек Admin студентті жоя алады.</p>
+}

@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using StudentApp.Models
+@inject SignInManager<ApplicationUser> SignInManager
+
+<div class="container text-end py-1 small">
+@if (SignInManager.IsSignedIn(User))
+{
+    <span class="me-2">@User.Identity?.Name</span>
+    <span class="badge bg-secondary me-2">@(User.IsInRole("Admin") ? "Admin" : "Student")</span>
+    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+        <button type="submit" class="btn btn-sm btn-outline-danger">Шығу</button>
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login" class="me-2">Кіру</a>
+    <a asp-controller="Account" asp-action="Register">Тіркелу</a>
+}
+</div>
